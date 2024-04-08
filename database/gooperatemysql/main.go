@@ -35,7 +35,7 @@ func main() {
 		fmt.Printf("数据库连接失败: %v", err)
 		return
 	}
-	deleteRow()
+	transactionDemo()
 }
 
 // queryRow 查询单行
@@ -119,4 +119,81 @@ func deleteRow() {
 		return
 	}
 	fmt.Printf("delete success, affected rows:%d\n", n)
+}
+
+// prepareQueryRow 预处理查询
+func prepareQueryRow() {
+	sqlStr := "select * from user where id > ?"
+	stmt, err := db.Prepare(sqlStr)
+	if err != nil {
+		fmt.Printf("prepare failed err: %v\n", err)
+		return
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query(0)
+	if err != nil {
+		fmt.Printf("query failed err: %v\n", err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var u user
+		err := rows.Scan(&u.id, &u.name, &u.age)
+		if err != nil {
+			fmt.Printf("scan failed, err:%v\n", err)
+			return
+		}
+		fmt.Printf("id:%d name:%s age:%d\n", u.id, u.name, u.age)
+	}
+}
+
+// transactionDemo 事务问题
+func transactionDemo() {
+	tx, err := db.Begin()
+	if err != nil {
+		if tx != nil {
+			tx.Rollback()
+		}
+		fmt.Printf("begin trans failed, err: %v\n", err)
+		return
+	}
+	sqlStr1 := "update user set age = 50 where id = ?"
+	ret1, err := tx.Exec(sqlStr1, 1)
+	if err != nil {
+		tx.Rollback()
+		fmt.Printf("exec sql1 failed, err: %v\n", err)
+		return
+	}
+	affRow1, err := ret1.RowsAffected()
+	if err != nil {
+		tx.Rollback() // 回滚
+		fmt.Printf("exec ret1.RowsAffected() failed, err:%v\n", err)
+		return
+	}
+
+	sqlStr2 := "update user set age = 60 where id = ?"
+	ret2, err := tx.Exec(sqlStr2, 4)
+	if err != nil {
+		tx.Rollback()
+		fmt.Printf("exec sql2 failed, err: %v\n", err)
+		return
+	}
+	affRow2, err := ret2.RowsAffected()
+	if err != nil {
+		tx.Rollback() // 回滚
+		fmt.Printf("exec ret2.RowsAffected() failed, err:%v\n", err)
+		return
+	}
+	fmt.Println(affRow1, affRow2)
+	if affRow1 == 1 && affRow2 == 1 {
+		fmt.Println("事务已经提交了")
+		tx.Commit()
+	} else {
+		tx.Rollback()
+		fmt.Println("事务回滚了")
+	}
+
+	fmt.Println("exec trans success")
 }
