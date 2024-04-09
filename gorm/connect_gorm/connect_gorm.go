@@ -2,10 +2,10 @@ package connect_gorm
 
 import (
 	"fmt"
-	"github/May-cloud/study/gorm/global"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"gorm_study/global"
 )
 
 func Connect() {

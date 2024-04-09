@@ -2,7 +2,6 @@ package associate
 
 import (
 	"fmt"
-	"github/May-cloud/study/gorm/global"
 	"gorm.io/gorm"
 )
 

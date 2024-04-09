@@ -2,8 +2,8 @@ package seek
 
 import (
 	"fmt"
-	"github/May-cloud/study/gorm/global"
 	"gorm.io/gorm"
+	"gorm_study/global"
 )
 
 type User struct {

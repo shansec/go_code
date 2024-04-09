@@ -2,7 +2,7 @@ package native
 
 import (
 	"fmt"
-	"github/May-cloud/study/gorm/global"
+	"gorm_study/global"
 )
 
 type User struct {

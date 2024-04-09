@@ -1,8 +1,8 @@
 package update
 
 import (
-	"github/May-cloud/study/gorm/global"
 	"gorm.io/gorm"
+	"gorm_study/global"
 )
 
 type User struct {

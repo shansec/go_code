@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github/May-cloud/study/gorm/associate"
-	"github/May-cloud/study/gorm/connect_gorm"
+	"gorm_study/associate"
+	"gorm_study/connect_gorm"
 )
 
 func main() {
