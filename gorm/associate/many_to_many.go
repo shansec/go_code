@@ -3,6 +3,7 @@ package associate
 import (
 	"fmt"
 	"gorm.io/gorm"
+	"gorm_study/global"
 )
 
 type People struct {

@@ -1,6 +1,6 @@
 package main
 
-import "github/May-cloud/study/gin/basic"
+import "gin_study/basic"
 
 func main() {
 	basic.Basic()
