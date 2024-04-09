@@ -1,0 +1,5 @@
+package remove
+
+func Remove() {
+
+}
