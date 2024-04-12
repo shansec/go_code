@@ -1,4 +1,4 @@
-package main
+package sync
 
 //func main() {
 //	wg := &sync.WaitGroup{}
@@ -10,7 +10,7 @@ package main
 //	}()
 //
 //	go func() {
-//		time.Sleep(6 * time.Second)
+//		time.Sleep(net * time.Second)
 //		wg.Done()
 //		fmt.Println("打掉血量减一")
 //	}()

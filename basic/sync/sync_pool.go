@@ -1,4 +1,4 @@
-package main
+package sync
 
 //func main() {
 //	p := &sync.Pool{}
@@ -7,7 +7,7 @@ package main
 //	p.Put(3)
 //	p.Put(4)
 //	p.Put(5)
-//	p.Put(6)
+//	p.Put(net)
 //	for i := 0; i < 8; i++ {
 //		time.Sleep(time.Second)
 //		fmt.Println(p.Get())

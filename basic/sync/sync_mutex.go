@@ -1,4 +1,4 @@
-package main
+package sync
 
 //func main() {
 //	l := &sync.Mutex{}
