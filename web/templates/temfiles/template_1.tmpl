@@ -11,5 +11,6 @@
     <p>Hello {{.Name}}</p>
     <p>性别： {{.Gender}}</p>
     <p>年龄： {{.Age}}</p>
+    {{if .Age<20}} 年龄太小了 {{else}} 年龄合适 {{end}}
 </body>
 </html>
