@@ -22,6 +22,9 @@ func mustBig(fl validator.FieldLevel) bool {
 func Bind() {
 	r := gin.Default()
 
+	// shouldBind* 系列方法和 Bind* 系列方法区别
+	//  Bind* 数据绑定失败，这些方法会自动终止请求处理流程，并向客户端返回一个错误响应
+	//	ShouldBind* 方法在数据绑定失败时不会自动终止请求处理流程或向客户端返回错误。相反，它们仅返回一个错误值，允许开发者自行决定如何处理这个错误。
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("mustBig", mustBig)
 	}

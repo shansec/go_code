@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/jmoiron/sqlx"
 	"sqlx_study/initialize"
 	"sqlx_study/model"
 	"sqlx_study/sqlxin"
+
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/jmoiron/sqlx"
 )
 
 func main() {

@@ -2,11 +2,11 @@ package main
 
 import (
 	"gorm_study/associate"
-	"gorm_study/connect_gorm"
+	"gorm_study/gormconnect"
 )
 
 func main() {
-	connect_gorm.Connect()
+	gormconnect.Connect()
 	//create.Create()	// 创建
 	//seek.Seek()		// 查询
 	//update.Update()	// 更新

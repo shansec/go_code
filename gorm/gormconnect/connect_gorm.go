@@ -1,11 +1,12 @@
-package connect_gorm
+package gormconnect
 
 import (
 	"fmt"
+	"gorm_study/global"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-	"gorm_study/global"
 )
 
 func Connect() {

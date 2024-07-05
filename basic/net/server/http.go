@@ -1,7 +1,7 @@
 package main
 
 //func main() {
-//	http.HandleFunc("/test", handle)
+//	http.HandleFunc("/caselist", handle)
 //	http.ListenAndServe(":8080", nil)
 //}
 //
@@ -13,7 +13,7 @@ package main
 //	case "POST":
 //		b, _ := io.ReadAll(req.Body)
 //		header := res.Header()
-//		header["test"] = []string{"test1", "test2"}
+//		header["caselist"] = []string{"test1", "test2"}
 //		res.WriteHeader(http.StatusOK)
 //		res.Write(b)
 //		break

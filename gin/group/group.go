@@ -2,6 +2,7 @@ package group
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,7 +25,7 @@ func middleware2() gin.HandlerFunc {
 func Group() {
 	r := gin.Default()
 	v1 := r.Group("v1").Use(middleware1()).Use(middleware2())
-	v1.GET("/test", func(ctx *gin.Context) {
+	v1.GET("/caselist", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"code": 200,
 			"msg":  "请求到数据了",

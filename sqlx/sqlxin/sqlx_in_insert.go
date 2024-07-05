@@ -2,10 +2,11 @@ package sqlxin
 
 import (
 	"fmt"
-	"github.com/jmoiron/sqlx"
 	"sqlx_study/initialize"
 	"sqlx_study/model"
 	"strings"
+
+	"github.com/jmoiron/sqlx"
 )
 
 // BatchInsertUsersTrouble 自行拼接完成插入

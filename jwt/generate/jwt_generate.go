@@ -2,8 +2,9 @@ package generate
 
 import (
 	"errors"
-	"github.com/golang-jwt/jwt/v4"
 	"time"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
 // 用于签名的字符串
