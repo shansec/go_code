@@ -2,8 +2,9 @@ package seek
 
 import (
 	"fmt"
-	"gorm.io/gorm"
 	"gorm_study/global"
+
+	"gorm.io/gorm"
 )
 
 type User struct {
@@ -36,6 +37,7 @@ func Seek() {
 	// Or 条件
 	//global.DB.Where("name = ?", "杜甫").Or("name = ?", "王维").Find(&users)
 	// 选择特定字段
-	global.DB.Debug().Select("name").Where("name = ?", "杜甫").First(&user)
+	//global.DB.Debug().Select("name").Where("name = ?", "杜甫").First(&user)
+	global.EXEC.Where(User{Name: "张飞"}).Assign(User{Age: 20}).FirstOrCreate(&user)
 	fmt.Println(user)
 }
