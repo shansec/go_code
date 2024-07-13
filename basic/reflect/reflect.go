@@ -10,7 +10,7 @@ type customInt int64
 type person struct {
 	Name  string   `json:"name"`
 	Age   uint     `json:"age"`
-	hobby []string `json:"hobby"`
+	Hobby []string `json:"hobby"`
 }
 
 func main() {
@@ -29,6 +29,7 @@ func main() {
 	var custonIntVariable customInt = 3
 	reflectTypeAndKind(custonIntVariable)
 	fmt.Println("**** TypeOf end ****")
+
 	fmt.Println("**** ValueOf start ****")
 	var intValueVariable int64 = 100
 	reflectValue(intValueVariable)
@@ -37,11 +38,13 @@ func main() {
 	var floatValueVariable float64 = 3.14
 	reflectValue(floatValueVariable)
 	fmt.Println("**** ValueOf end ****")
+
 	fmt.Println("**** 通过反射设置变量的值 start ****")
 	var intSetValue int64 = 99
 	reflectSetValue(&intSetValue)
 	fmt.Printf("intSetValue value: %d\n", intSetValue)
 	fmt.Println("**** 通过反射设置变量的值 end ****")
+
 	reflectStruct()
 }
 
@@ -92,7 +95,7 @@ func reflectStruct() {
 	per := person{
 		Name:  "曹操",
 		Age:   100,
-		hobby: []string{"军事", "你懂的"},
+		Hobby: []string{"军事", "你懂的"},
 	}
 	v := reflect.TypeOf(per)
 	fmt.Println(v.Name(), v.Kind())
