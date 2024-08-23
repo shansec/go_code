@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+// SearchRequest
+/* SearchRequest 表示一个分页查询 
+ * 其中有一些字段指示响应中包含哪些结果 */
+message SearchRequest {
+  string query = 1;
+  int32 page_number = 2;
+  int32 page_size = 3;
+}
