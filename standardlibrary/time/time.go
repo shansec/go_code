@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	timeZoneDemo()
+	timeStampDemo()
 }
 
 func timeDemo() {
@@ -22,7 +22,11 @@ func timeDemo() {
 	fmt.Println(year, month, day, hour, minute, second)
 }
 
-func timeZoneDemo() {
-	//secondsEastOfUTC := int((8 * time.Hour).Seconds())
-
+func timeStampDemo() {
+	now := time.Now()
+	timestamp := now.Unix()  // 秒级时间戳
+	milli := now.UnixMilli() // 毫秒级时间戳
+	micro := now.UnixMicro() // 微秒级时间戳
+	nano := now.UnixNano()   // 纳秒级时间戳
+	fmt.Println(timestamp, milli, micro, nano)
 }
