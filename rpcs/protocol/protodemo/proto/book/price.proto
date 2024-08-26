@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+// 声明 protobuf 中的包名
+package book;
+// 声明生成的 Go 代码的导入路径
+option go_package = "protodemo/pb/book";
+
+message Price {
+  int64 market_price  = 1;
+  int64 sale_price = 2;
+}

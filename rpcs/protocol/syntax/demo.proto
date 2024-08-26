@@ -6,5 +6,17 @@ syntax = "proto3";
 message SearchRequest {
   string query = 1;
   int32 page_number = 2;
-  int32 page_size = 3;
+  repeated int32 page_size = 3;
+  enum Corpus {
+    UNIVERSAL = 0;
+    WEB = 1;
+  }
+  Corpus corpus = 4;
+  repeated Result result = 5;
+}
+
+message Result {
+  string url  = 1;
+  string title = 2;
+  repeated string snippets = 3;
 }
