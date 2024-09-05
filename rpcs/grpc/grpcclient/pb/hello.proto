@@ -6,7 +6,7 @@ package pb;
 
 service Greeter {
   // grpc 基础工作方式
-  // rpc SayHello(HelloRequest) returns (HelloResponse) {}
+//   rpc SayHello(HelloRequest) returns (HelloResponse) {}
   // 服务端流式 RPC
   // rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
   // 客户端流式 RPC

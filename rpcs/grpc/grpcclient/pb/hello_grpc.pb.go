@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v5.26.0
-// source: pb/hello.proto
+// source: hello.proto
 
 package pb
 
@@ -27,7 +27,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GreeterClient interface {
 	// grpc 基础工作方式
-	// rpc SayHello(HelloRequest) returns (HelloResponse) {}
+	//
+	//	rpc SayHello(HelloRequest) returns (HelloResponse) {}
+	//
 	// 服务端流式 RPC
 	// rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
 	// 客户端流式 RPC
@@ -80,7 +82,9 @@ func (x *greeterBindHelloClient) Recv() (*HelloResponse, error) {
 // for forward compatibility
 type GreeterServer interface {
 	// grpc 基础工作方式
-	// rpc SayHello(HelloRequest) returns (HelloResponse) {}
+	//
+	//	rpc SayHello(HelloRequest) returns (HelloResponse) {}
+	//
 	// 服务端流式 RPC
 	// rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
 	// 客户端流式 RPC
@@ -151,5 +155,5 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "pb/hello.proto",
+	Metadata: "hello.proto",
 }
