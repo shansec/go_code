@@ -1,0 +1,19 @@
+syntax="proto3";
+
+option go_package = "middleware/pb";
+
+package pb;
+
+service Middleware {
+  //  rpc SayHello(HelloRequest) returns(HelloResponse) {}
+  // 双向流式数据
+  rpc BindHello(stream HelloRequest) returns (stream HelloResponse);
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string reply = 1;
+}

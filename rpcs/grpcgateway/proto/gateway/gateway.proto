@@ -1,0 +1,24 @@
+syntax="proto3";
+
+package gateway;
+
+option go_package = "grpcgateway/proto/gateway";
+
+import "google/api/annotations.proto";
+
+service Gateway {
+  rpc SayHello(HelloRequest) returns (HelloResponse) {
+    option (google.api.http) = {
+      post: "/v1/example/echo",
+      body: "*"
+    };
+  }
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string reply = 1;
+}
