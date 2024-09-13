@@ -1,0 +1,62 @@
+syntax="proto3";
+
+package book;
+
+// 声明生成 GO 的导入路径
+option go_package = "grpc-transcode/proto/book";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+service Bookstore {
+  rpc ListShelves(google.protobuf.Empty) returns (ListShelvesResponse) {
+    // 映射注释
+    option(google.api.http) = {
+      get: "/v1/shelves"
+    };
+  };
+  rpc GetShelf(GetShelvesRequest) returns (Shelf) {
+    option(google.api.http) = {
+      get: "/v1/shelves/{shelf}"
+    };
+  };
+  rpc GetBook(GetBookRequest) returns (Book) {
+    option(google.api.http) = {
+      get: "/v1/shelves/{shelf}/books/{book}"
+    };
+  };
+  rpc CreateShelf(CreateShelfRequest) returns (Shelf) {
+    option(google.api.http) = {
+      post: "/v1/shelves"
+      body: "shelf"
+    };
+  }
+}
+
+message Shelf {
+  // 唯一的书架 id
+  int64 id = 1;
+  // 书架的主题
+  string theme = 2;
+}
+
+message ListShelvesResponse {
+  repeated Shelf shelf = 1;
+}
+
+message GetShelvesRequest {
+  int64 shelf = 1;
+}
+
+message GetBookRequest {
+  int64 shelf = 1;
+  int64 book = 2;
+}
+
+message Book {
+  string name = 1;
+}
+
+message CreateShelfRequest {
+  Shelf shelf = 1;
+}
