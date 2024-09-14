@@ -3,10 +3,9 @@ package main
 import (
 	"context"
 
-	"github.com/shansec/go_code/microservices/trimservice/pb"
-
 	"github.com/go-kit/kit/endpoint"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	"github.com/shansec/go_code/microservices/trimservice/pb"
 	"google.golang.org/grpc"
 )
 
