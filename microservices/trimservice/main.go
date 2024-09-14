@@ -7,7 +7,8 @@ import (
 	"log"
 	"net"
 	"strings"
-	"trimservice/pb"
+
+	"github.com/shansec/go_code/microservices/trimservice/pb"
 
 	"google.golang.org/grpc"
 )

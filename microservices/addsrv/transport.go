@@ -10,6 +10,7 @@ import (
 	"github.com/go-kit/kit/log"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	httpTransport "github.com/go-kit/kit/transport/http"
+	trimPb "github.com/shansec/go_code/microservices/trimservice/pb"
 )
 
 func decodeGRPCSumRequest(_ context.Context, gRpcReq interface{}) (interface{}, error) {
@@ -115,11 +116,11 @@ func NewHTTPServer(svc AddService, logger log.Logger) http.Handler {
 // encodeTrimRequest 将内部使用的数据编码为proto
 func encodeTrimRequest(_ context.Context, response interface{}) (request interface{}, err error) {
 	resp := response.(TrimRequest)
-	return &pb.TrimRequest{S: resp.s}, nil
+	return &trimPb.TrimRequest{S: resp.s}, nil
 }
 
 // decodeTrimResponse 解析pb消息
 func decodeTrimResponse(_ context.Context, in interface{}) (interface{}, error) {
-	resp := in.(*pb.TrimResponse)
+	resp := in.(*trimPb.TrimResponse)
 	return TrimRequest{s: resp.S}, nil
 }
