@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"os"
 
+	"github.com/go-kit/log"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 )
@@ -17,7 +19,9 @@ var (
 )
 
 func main() {
-	bs := NewService()
+	logger := log.NewLogfmtLogger(os.Stderr)
+	bs := NewLogMiddlewareService()
+	bsMiddleware := NewLogMiddleware(logger, bs)
 
 	var g errgroup.Group
 
@@ -28,7 +32,7 @@ func main() {
 			return err
 		}
 		defer httpListener.Close()
-		httpHandler := NewHTTPServer(bs)
+		httpHandler := NewHTTPServer(bsMiddleware, logger)
 		return http.Serve(httpListener, httpHandler)
 	})
 
@@ -41,7 +45,7 @@ func main() {
 		}
 		defer grpcListener.Close()
 		s := grpc.NewServer()
-		pb.RegisterAddServer(s, NewGRPCServer(bs))
+		pb.RegisterAddServer(s, NewGRPCServer(bsMiddleware))
 		return s.Serve(grpcListener)
 	})
 

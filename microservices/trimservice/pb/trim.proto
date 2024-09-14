@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package pb;
+
+option go_package = "github.com/shansec/go_code/microservices/pb";
+
+service Trim {
+  rpc TrimSpace(TrimRequest) returns (TrimResponse) {}
+}
+
+message TrimRequest {
+  string s = 1;
+}
+
+message TrimResponse {
+  string s = 1;
+}

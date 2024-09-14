@@ -3,7 +3,11 @@ package main
 import (
 	"context"
 
+	"github.com/shansec/go_code/microservices/trimservice/pb"
+
 	"github.com/go-kit/kit/endpoint"
+	grpctransport "github.com/go-kit/kit/transport/grpc"
+	"google.golang.org/grpc"
 )
 
 type SumRequest struct {
@@ -46,4 +50,24 @@ func makeConcatEndpoint(svc AddService) endpoint.Endpoint {
 		}
 		return ConcatResponse{V: con}, nil
 	}
+}
+
+// TrimRequest 调用其它服务
+type TrimRequest struct {
+	s string
+}
+
+type TrimResponse struct {
+	s string
+}
+
+func makeTrimEndpoint(conn *grpc.ClientConn) endpoint.Endpoint {
+	return grpctransport.NewClient(
+		conn,
+		"pb.Trim",
+		"TrimSpace",
+		encodeTrimRequest,
+		decodeTrimResponse,
+		pb.TrimResponse{},
+	).Endpoint()
 }

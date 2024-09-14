@@ -6,9 +6,10 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+	"github.com/go-kit/kit/log"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	httpTransport "github.com/go-kit/kit/transport/http"
-	"github.com/gorilla/mux"
 )
 
 func decodeGRPCSumRequest(_ context.Context, gRpcReq interface{}) (interface{}, error) {
@@ -79,18 +80,46 @@ func encodeResponse(_ context.Context, w http.ResponseWriter, response interface
 	return json.NewEncoder(w).Encode(response)
 }
 
-func NewHTTPServer(svc AddService) http.Handler {
-	sumHandler := httpTransport.NewServer(makeSumEndpoint(svc), decodeSumRequest, encodeResponse)
-	concatHandler := httpTransport.NewServer(makeConcatEndpoint(svc), decodeConcatRequest, encodeResponse)
+func NewHTTPServer(svc AddService, logger log.Logger) http.Handler {
+	// sum 加上日志中间件
+	sum := makeSumEndpoint(svc)
+	sum = loggingMiddleware(log.With(logger, "method", "Sum"))(sum)
+	sumHandler := httpTransport.NewServer(
+		sum,
+		decodeSumRequest,
+		encodeResponse,
+	)
+
+	// concat 加上日志中间件
+	concat := makeConcatEndpoint(svc)
+	concat = loggingMiddleware(log.With(logger, "method", "Concat"))(concat)
+	concatHandler := httpTransport.NewServer(
+		concat,
+		decodeConcatRequest,
+		encodeResponse,
+	)
 
 	// use github.com/gorilla/mux
-	r := mux.NewRouter()
-	r.Handle("/sum", sumHandler).Methods("POST")
-	r.Handle("/concat", concatHandler).Methods("POST")
+	//r := mux.NewRouter()
+	//r.Handle("/sum", sumHandler).Methods("POST")
+	//r.Handle("/concat", concatHandler).Methods("POST")
 
 	// use gin
-	// r := gin.Default()
-	// r.POST("/sum", gin.WrapH(sumHandler))
-	// r.POST("/concat", gin.WrapH(concatHandler))
+	r := gin.Default()
+	r.POST("/sum", gin.WrapH(sumHandler))
+	r.POST("/concat", gin.WrapH(concatHandler))
 	return r
+}
+
+// 调用其它服务
+// encodeTrimRequest 将内部使用的数据编码为proto
+func encodeTrimRequest(_ context.Context, response interface{}) (request interface{}, err error) {
+	resp := response.(TrimRequest)
+	return &pb.TrimRequest{S: resp.s}, nil
+}
+
+// decodeTrimResponse 解析pb消息
+func decodeTrimResponse(_ context.Context, in interface{}) (interface{}, error) {
+	resp := in.(*pb.TrimResponse)
+	return TrimRequest{s: resp.S}, nil
 }
