@@ -2,8 +2,14 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
+	"net"
+	"net/http"
+	"os"
 
+	goKitLog "github.com/go-kit/kit/log"
+	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -59,4 +65,22 @@ func main() {
 	defer conn.Close()
 	trimEndpoint := makeTrimEndpoint(conn)
 	bs = NewServiceWithTrim(trimEndpoint, bs)
+	logger := goKitLog.NewLogfmtLogger(os.Stderr)
+	//bsMiddleware := NewLogMiddleware(logger, bs)
+
+	var g errgroup.Group
+
+	g.Go(func() error {
+		httpListener, err := net.Listen("tcp", *httpAddr)
+		if err != nil {
+			fmt.Printf("http: net.Listen(tcp, %s) failed, err:%v\n", *httpAddr, err)
+			return err
+		}
+		defer httpListener.Close()
+		httpHandler := NewHTTPServerTrim(bs, logger)
+		return http.Serve(httpListener, httpHandler)
+	})
+	if err := g.Wait(); err != nil {
+		fmt.Printf("server exit with err:%v\n", err)
+	}
 }

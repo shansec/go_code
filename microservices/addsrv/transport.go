@@ -84,7 +84,7 @@ func encodeResponse(_ context.Context, w http.ResponseWriter, response interface
 func NewHTTPServer(svc AddService, logger log.Logger) http.Handler {
 	// sum 加上日志中间件
 	sum := makeSumEndpoint(svc)
-	sum = loggingMiddleware(log.With(logger, "method", "Sum"))(sum)
+	//sum = loggingMiddleware(log.With(logger, "method", "Sum"))(sum)
 	sumHandler := httpTransport.NewServer(
 		sum,
 		decodeSumRequest,
@@ -93,7 +93,7 @@ func NewHTTPServer(svc AddService, logger log.Logger) http.Handler {
 
 	// concat 加上日志中间件
 	concat := makeConcatEndpoint(svc)
-	concat = loggingMiddleware(log.With(logger, "method", "Concat"))(concat)
+	//concat = loggingMiddleware(log.With(logger, "method", "Concat"))(concat)
 	concatHandler := httpTransport.NewServer(
 		concat,
 		decodeConcatRequest,
@@ -122,5 +122,21 @@ func encodeTrimRequest(_ context.Context, response interface{}) (request interfa
 // decodeTrimResponse 解析pb消息
 func decodeTrimResponse(_ context.Context, in interface{}) (interface{}, error) {
 	resp := in.(*trimPb.TrimResponse)
-	return TrimRequest{s: resp.S}, nil
+	return TrimResponse{s: resp.S}, nil
+}
+
+func NewHTTPServerTrim(svc AddService, logger log.Logger) http.Handler {
+	// concat 加上日志中间件
+	concat := makeConcatEndpoint(svc)
+	concat = loggingMiddleware(log.With(logger, "method", "Concat"))(concat)
+	concatHandler := httpTransport.NewServer(
+		concat,
+		decodeConcatRequest,
+		encodeResponse,
+	)
+
+	// use gin
+	r := gin.Default()
+	r.POST("/concat", gin.WrapH(concatHandler))
+	return r
 }
