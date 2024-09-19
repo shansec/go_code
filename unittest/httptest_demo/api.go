@@ -20,7 +20,7 @@ func GetResultByAPI(x, y int) int {
 	b, _ := json.Marshal(p)
 
 	// 调用其它服务的 API
-	resp, err := http.Post("url", "application/json", bytes.NewBuffer(b))
+	resp, err := http.Post("http://localhost:8080/post", "application/json", bytes.NewBuffer(b))
 	if err != nil {
 		return -1
 	}

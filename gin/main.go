@@ -1,9 +1,7 @@
 package main
 
-import (
-	"gin_study/middleware"
-)
+import "gin_study/unittesthttp"
 
 func main() {
-	middleware.Enter()
+	unittesthttp.UnitTestHttp()
 }
